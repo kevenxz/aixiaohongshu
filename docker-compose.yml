@@ -1,0 +1,80 @@
+services:
+  app:
+    build: .
+    container_name: xhs-workflow-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
+      DATABASE_PATH: /app/data/workflow.db
+      MEDIA_DIR: /app/data/media
+      EXPORT_DIR: /app/data/exports
+      XHS_MCP_SERVER_URL: http://xiaohongshu-mcp:18060/mcp
+      XHS_MCP_AUTH_TOKEN: ${XHS_MCP_AUTH_TOKEN}
+      XHS_MCP_STAR_URL: http://xiaohongshu-mcp-star:18060/mcp
+      XHS_MCP_TOKEN_STAR: ${XHS_MCP_TOKEN_STAR}
+      ACCOUNTS_FILE: /app/config/accounts.yaml
+      XHS_MEDIA_BASE_URL: http://app:8000/media
+      TZ: Asia/Shanghai
+    expose:
+      - "8000"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config:ro
+    depends_on:
+      - xiaohongshu-mcp
+      - xiaohongshu-mcp-star
+
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: xhs-caddy
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./data/caddy:/data
+      - ./data/caddy-config:/config
+    depends_on:
+      - app
+
+  xiaohongshu-mcp:
+    image: xpzouying/xiaohongshu-mcp:latest
+    container_name: xhs-mcp
+    restart: unless-stopped
+    tty: true
+    environment:
+      COOKIES_PATH: /app/data/cookies.json
+      HOME: /app/data/home
+      XDG_CONFIG_HOME: /app/data/config
+      AUTH_TOKEN: ${XHS_MCP_AUTH_TOKEN}
+      TZ: Asia/Shanghai
+      # XHS_PROXY: http://user:pass@proxy:port
+    volumes:
+      - ./data/xhs-mcp:/app/data
+      - ./data/xhs-images:/app/images
+    ports:
+      - "127.0.0.1:18060:18060"
+
+  xiaohongshu-mcp-star:
+    image: xpzouying/xiaohongshu-mcp:latest
+    container_name: xhs-mcp-star
+    restart: unless-stopped
+    tty: true
+    environment:
+      COOKIES_PATH: /app/data/cookies.json
+      HOME: /app/data/home
+      XDG_CONFIG_HOME: /app/data/config
+      AUTH_TOKEN: ${XHS_MCP_TOKEN_STAR}
+      TZ: Asia/Shanghai
+      # XHS_PROXY: http://user:pass@proxy:port
+    volumes:
+      - ./data/xhs-mcp-star:/app/data
+      - ./data/xhs-images-star:/app/images
+    ports:
+      - "127.0.0.1:18061:18060"

@@ -1,0 +1,62 @@
+# 多账号运营配置。
+# 密钥不写在本文件：只写 *_env 环境变量名，真实值放在 .env。
+# AI 账号省略 sources/schedule/publish，继续继承现有 .env，保证老配置不变。
+
+accounts:
+  - slug: ai-signals
+    name: AI 情报站
+    avatar: AI
+    accent: "#c9f967"
+    enabled: true
+    content_style: article
+    tagline: "把世界的\n下一条灵感，\n带回你的 feed."
+    description: "只捕捉 AI 世界的高热信号：从 Reddit、X、YouTube 找到正在升温的模型、工具和观点，交给模型翻译、重组、打磨，再由你决定它如何抵达小红书。"
+
+  - slug: star-gallery
+    name: 明星图集
+    avatar: 星
+    accent: "#ff785e"
+    enabled: true
+    content_style: gallery
+    tagline: "把明星的\n高光瞬间，\n收进你的图集."
+    description: "从微博与 Instagram 追踪明星最新写真、活动与造型，整理成 3-9 张可直接发布的小红书图集。"
+    relevance:
+      only: false
+      min_score: 0.1
+      # keywords 用于排序和标签兜底，不强制过滤；关注账号本身就是筛选条件
+      keywords: []
+    target_posts_per_day: 9
+    media:
+      rights_mode: editorial
+      max_images: 9
+      min_images: 3
+      min_width: 720
+    sources:
+      weibo:
+        # 填明星本人/工作室/图站的 UID，name 只用于展示
+        uids: []
+        # uids:
+        #   - uid: "1234567890"
+        #     name: 明星A工作室
+        cookie_env: WEIBO_COOKIE
+        days: 3
+        include_retweets: false
+      instagram:
+        # 每个明星一个 RSSHub/第三方 RSS 地址，不依赖具体路由规则
+        feeds: []
+        # feeds:
+        #   - name: 明星A
+        #     url: https://rsshub.example.com/instagram/user/star_a
+    schedule:
+      collect_cron: "0 10,19 * * *"
+      auto_publish: false
+      auto_publish_cron: "40 21 * * *"
+      auto_publish_limit: 2
+    publish:
+      mode: mcp
+      mcp_url: ${XHS_MCP_STAR_URL:-http://127.0.0.1:18061/mcp}
+      token_env: XHS_MCP_TOKEN_STAR
+      visibility: 仅自己可见
+    prompt:
+      persona: 明星图集编辑
+      extra_rules: "不传播未经证实的恋情/绯闻；不引战；保留来源署名；图片版权与肖像使用范围由发布者确认。"

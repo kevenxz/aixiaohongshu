@@ -1,0 +1,94 @@
+# 多账号配置示例。
+# 复制为 config/accounts.yaml 后修改；密钥只写环境变量名，真实值放在 .env。
+
+accounts:
+  - slug: ai-signals
+    name: AI 情报站
+    avatar: AI
+    accent: "#c9f967"
+    enabled: true
+    content_style: article
+    tagline: "把世界的\n下一条灵感，\n带回你的 feed."
+    relevance:
+      only: true
+      min_score: 0.15
+      keywords: [ai, artificial intelligence, machine learning, llm, 人工智能, 大模型]
+    target_posts_per_day: 30
+    media:
+      rights_mode: verified
+      max_images: 1
+      min_images: 1
+    sources:
+      reddit:
+        mode: auto
+        subreddits: [artificial, MachineLearning, LocalLLaMA, OpenAI, ChatGPT]
+        sort: hot
+        top_time: day
+      x:
+        bearer_token_env: X_BEARER_TOKEN
+        queries: [AI OR artificial intelligence, LLM, ChatGPT OR OpenAI]
+        priority_accounts: [OpenAI, AnthropicAI, GoogleDeepMind]
+        list_id: ""
+      youtube:
+        api_key_env: YOUTUBE_API_KEY
+        queries: [AI news, AI agents, large language model]
+        days: 7
+      rss:
+        - label: OpenAI
+          url: https://openai.com/news/rss.xml
+    schedule:
+      collect_cron: "0 8 * * *"
+      auto_publish: true
+      auto_publish_cron: "30 9 * * *"
+      auto_publish_limit: 3
+    publish:
+      mode: mcp
+      mcp_url: http://127.0.0.1:18060/mcp
+      token_env: XHS_MCP_AUTH_TOKEN
+      visibility: 公开可见
+    prompt:
+      persona: 中文 AI 科技编辑
+      extra_rules: ""
+
+  - slug: star-gallery
+    name: 明星图集
+    avatar: 星
+    accent: "#ff785e"
+    enabled: true
+    content_style: gallery
+    tagline: "把明星的\n高光瞬间，\n收进你的图集."
+    relevance:
+      only: false
+      min_score: 0.1
+      keywords: []
+    target_posts_per_day: 9
+    media:
+      rights_mode: editorial
+      max_images: 9
+      min_images: 3
+      min_width: 720
+    sources:
+      weibo:
+        uids:
+          - uid: "1234567890"
+            name: 明星A工作室
+        cookie_env: WEIBO_COOKIE
+        days: 3
+        include_retweets: false
+      instagram:
+        feeds:
+          - name: 明星A
+            url: https://rsshub.example.com/instagram/user/star_a
+    schedule:
+      collect_cron: "0 10,19 * * *"
+      auto_publish: false
+      auto_publish_cron: "40 21 * * *"
+      auto_publish_limit: 2
+    publish:
+      mode: mcp
+      mcp_url: ${XHS_MCP_STAR_URL:-http://127.0.0.1:18061/mcp}
+      token_env: XHS_MCP_TOKEN_STAR
+      visibility: 仅自己可见
+    prompt:
+      persona: 明星图集编辑
+      extra_rules: "不传播未经证实的恋情/绯闻；不引战；保留来源署名。"

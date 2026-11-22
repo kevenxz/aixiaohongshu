@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#11110f" />
+    <meta name="description" content="Signal Atelier — 从 Reddit、X、YouTube 到小红书的每日内容编排台。" />
+    <meta property="og:title" content="Signal Atelier — 内容编排台" />
+    <meta property="og:description" content="捕捉信号，重组灵感，准备发布。" />
+    <title>Signal Atelier — 内容编排台</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/styles.css?v=16" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">跳到主要内容</a>
+    <div class="grain"></div>
+    <div class="app-shell">
+      <aside class="rail" aria-label="主导航">
+        <div class="brand-mark" aria-label="Signal Atelier">S<span>/</span></div>
+        <nav class="rail-nav">
+          <button class="rail-link is-active" data-section="inbox" aria-label="内容收件箱"><span class="rail-icon">◉</span><span>收件箱</span></button>
+          <button class="rail-link" data-section="sources" aria-label="内容来源"><span class="rail-icon">⌁</span><span>来源</span></button>
+          <button class="rail-link" data-section="calendar" aria-label="发布日历"><span class="rail-icon">◫</span><span>日历</span></button>
+          <button class="rail-link" data-section="insights" aria-label="数据洞察"><span class="rail-icon">↗</span><span>洞察</span></button>
+        </nav>
+        <div class="rail-bottom">
+          <button class="rail-link" data-section="settings" aria-label="设置"><span class="rail-icon">⊙</span><span>设置</span></button>
+          <div class="avatar">S</div>
+        </div>
+      </aside>
+
+      <main class="main-stage" id="content">
+        <header class="topbar">
+          <div class="crumb"><span class="crumb-dot"></span><span>signal atelier</span><span class="crumb-slash">/</span><span class="muted">每日内容编排台</span></div>
+          <div class="top-actions">
+            <div class="sync-state" id="syncState"><span class="pulse-dot"></span><span id="syncLabel">连接中</span></div>
+            <button class="icon-button" id="refreshButton" aria-label="刷新内容" title="刷新内容">↻</button>
+            <div class="account-switcher" id="accountSwitcher">
+              <button class="profile-button" id="accountButton" aria-haspopup="menu" aria-expanded="false" aria-label="切换账号">
+                <span class="profile-avatar" id="accountAvatar">AI</span>
+                <span class="account-copy"><strong id="accountName">AI 情报站</strong><small id="accountStyle">AI 情报</small></span>
+                <span class="chevron">⌄</span>
+              </button>
+              <div class="account-menu" id="accountMenu" role="menu" hidden></div>
+            </div>
+          </div>
+        </header>
+
+        <section class="hero reveal">
+          <div class="hero-copy">
+            <p class="eyebrow" id="heroEyebrow"><span class="eyebrow-line"></span>CONTENT ORCHESTRATION / 2026</p>
+            <h1 id="heroTitle">把世界的<br /><em>下一条</em>灵感，<br />带回你的 feed.</h1>
+            <p class="hero-description" id="heroDescription">只捕捉 AI 世界的高热信号：从 Reddit、X、YouTube 找到正在升温的模型、工具和观点，交给模型翻译、重组、打磨，再由你决定它如何抵达小红书。</p>
+            <div class="hero-actions">
+              <button class="primary-button" id="runButton"><span class="button-spark">✦</span><span>现在采集</span><span class="button-arrow">↗</span></button>
+              <span class="hero-note">下次自动运行 <strong id="nextRunLabel">—</strong></span>
+            </div>
+          </div>
+          <div class="orbit-wrap" aria-hidden="true">
+            <div class="orbit-label label-top">AI SIGNALS <span id="signalCount">00</span></div>
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="orbit orbit-three"></div>
+            <div class="orbit-core"><span>SA</span><small>curate<br />with intent</small></div>
+            <div class="orbit-node node-a"><span>R</span></div>
+            <div class="orbit-node node-b"><span>𝕏</span></div>
+            <div class="orbit-node node-c"><span>▶</span></div>
+            <div class="orbit-label label-bottom">TODAY'S QUOTA <span id="quotaCount">—</span></div>
+          </div>
+        </section>
+
+        <section class="metrics reveal reveal-delay-1" aria-label="今日指标">
+          <div class="metric metric-featured"><span class="metric-index">01</span><div><span class="metric-label">今日目标</span><strong id="targetMetric">—</strong></div><span class="metric-mark">↗</span></div>
+          <div class="metric"><span class="metric-index">02</span><div><span class="metric-label">今日已捕捉</span><strong id="capturedMetric">—</strong></div><span class="metric-status status-up" id="capturedNote">today</span></div>
+          <div class="metric"><span class="metric-index">03</span><div><span class="metric-label">待审核</span><strong id="reviewMetric">—</strong></div><span class="metric-status status-wait">queue</span></div>
+          <div class="metric"><span class="metric-index">04</span><div><span class="metric-label">可发布</span><strong id="readyMetric">—</strong></div><span class="metric-status status-ready">ready</span></div>
+        </section>
+
+        <section class="setup-banner" id="setupBanner" hidden>
+          <div>
+            <p class="eyebrow compact"><span class="eyebrow-line"></span>SETUP NEEDED</p>
+            <p id="setupText">还有采集通道未配置。</p>
+          </div>
+          <button class="ghost-button" id="setupButton">打开设置 ↗</button>
+        </section>
+
+        <section class="workspace reveal reveal-delay-2">
+          <div class="queue-panel">
+            <div class="section-heading">
+              <div><p class="eyebrow compact"><span class="eyebrow-line"></span>CURATION QUEUE</p><h2>今日信号 <sup id="queueCount">00</sup></h2></div>
+              <div class="queue-tools"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="搜索内容..." aria-label="搜索内容" /></div><button class="sort-button" id="sortButton"><span id="sortLabel">热度</span> <span>⌄</span></button></div>
+            </div>
+            <div class="filter-row" id="filterRow" role="tablist" aria-label="按来源筛选"></div>
+            <div class="feed-list" id="feedList"></div>
+            <nav class="pagination" id="feedPagination" aria-label="信号分页" hidden>
+              <button class="page-button" id="feedPrev" type="button">← 上一页</button>
+              <span class="page-status" id="feedPageStatus" aria-live="polite"></span>
+              <button class="page-button" id="feedNext" type="button">下一页 →</button>
+            </nav>
+            <div class="empty-state" id="emptyState" hidden>
+              <span>✦</span>
+              <h3 id="emptyTitle">还没有匹配的信号</h3>
+              <p id="emptyCopy">换一个关键词，或者重新采集一轮。</p>
+              <button class="ghost-button" id="emptyAction">清除筛选</button>
+            </div>
+          </div>
+
+          <aside class="insight-column">
+            <div class="insight-card pulse-card">
+              <div class="card-kicker"><span>DAILY PULSE</span><span class="mini-live"><i></i> LIVE</span></div>
+              <div class="pulse-head"><h3>今日的<br /><em>注意力</em>在哪？</h3><span class="pulse-score" id="pulseScore">0.0<small>/10</small></span></div>
+              <div class="pulse-chart" id="pulseChart" aria-label="最近 12 小时捕获量"></div>
+              <div class="chart-labels" id="pulseLabels"><span>—</span><span>—</span><span>—</span><span>NOW</span></div>
+              <div class="pulse-divider"></div>
+              <div class="pulse-meta"><span>峰值来源</span><strong id="peakSource">暂无信号</strong><span class="pulse-up" id="pulseMeta">等待采集</span></div>
+            </div>
+            <div class="insight-card station-card">
+              <div class="card-kicker"><span>PUBLISHING STATION</span><span class="station-icon">✦</span></div>
+              <div class="station-title"><span class="station-number" id="stationNumber">00</span><div><h3>条内容<br /><em>已准备好</em></h3><p id="stationHint">小红书发布通道</p></div></div>
+              <div class="station-progress"><span id="stationProgress"></span></div>
+              <div class="station-foot"><span><i class="secure-dot"></i> <span id="publisherState">本地导出</span></span><div class="station-actions"><button id="publishQueueButton">查看队列 ↗</button><button class="station-run" id="publishAllButton">发布全部 ↗</button></div></div>
+            </div>
+            <div class="source-health">
+              <div class="health-head"><span class="eyebrow compact">SOURCE HEALTH</span><span>更新于 <strong id="healthTime">—</strong></span></div>
+              <div class="health-rows" id="healthRows"></div>
+            </div>
+          </aside>
+        </section>
+
+        <footer class="footer"><span>signal atelier © 2026</span><span>built for the curious <b>✦</b></span><span>v0.3 / 上海</span></footer>
+      </main>
+    </div>
+
+    <div class="scrim" id="scrim" hidden></div>
+
+    <aside class="editor" id="editor" role="dialog" aria-modal="true" aria-labelledby="editorHeading" hidden>
+      <header class="editor-head">
+        <div><p class="eyebrow compact"><span class="eyebrow-line"></span><span id="editorPlatform">SIGNAL</span></p><h2 id="editorHeading">编辑草稿</h2></div>
+        <button class="icon-button" id="closeEditor" aria-label="关闭编辑">×</button>
+      </header>
+      <div class="editor-scroll">
+        <div class="editor-meta" id="editorMeta"></div>
+        <div class="editor-media" id="editorMedia" hidden><div class="media-gallery" id="editorGallery"></div></div>
+        <div class="editor-statusbar"><span class="feed-status" id="editorStatus">待审核</span><span id="editorUpdated"></span></div>
+        <label class="field"><span>标题</span><input id="editorTitle" maxlength="160" /></label>
+        <label class="field"><span>正文</span><textarea id="editorBody" rows="14"></textarea></label>
+        <label class="field"><span>标签 <small>用逗号分隔</small></span><input id="editorTags" /></label>
+        <div class="risk-list" id="editorRisks"></div>
+        <a class="source-link" id="editorSource" href="#" target="_blank" rel="noreferrer noopener">查看来源 ↗</a>
+      </div>
+      <footer class="editor-actions">
+        <div class="editor-actions-row">
+          <button class="ghost-button" id="downloadButton">下载 Markdown</button>
+          <button class="ghost-button danger" id="rejectButton">忽略</button>
+        </div>
+        <div class="editor-actions-row" id="editorPrimaryActions">
+          <button class="secondary-button" id="saveButton">保存修改</button>
+          <button class="secondary-button" id="approveButton">批准</button>
+          <button class="primary-button compact-button" id="publishButton"><span>发布</span><span class="button-arrow">↗</span></button>
+        </div>
+      </footer>
+    </aside>
+
+    <section class="info-sheet" id="infoSheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle" hidden>
+      <header class="sheet-head">
+        <div><p class="eyebrow compact" id="sheetKicker">STUDIO</p><h2 id="sheetTitle">设置</h2></div>
+        <button class="icon-button" id="closeSheet" aria-label="关闭面板">×</button>
+      </header>
+      <div class="sheet-body" id="sheetBody"></div>
+    </section>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"><span class="toast-icon">✦</span><span id="toastText">已更新</span></div>
+    <script src="/static/app.js?v=16"></script>
+  </body>
+</html>
